@@ -1,5 +1,5 @@
-
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameStateMachine : IGameState
 {
@@ -9,7 +9,27 @@ public class GameStateMachine : IGameState
 
     public void ChangeState(GameState newState)
     {
+        if(CurrentState == newState) return;
+
         CurrentState = newState;
         OnStateChanged?.Invoke(newState);
+
+        HandleStateTransition(newState);
+    }
+
+    private void HandleStateTransition(GameState newState)
+    {
+        switch(newState)
+        {
+            case GameState.Lobby:
+                SceneManager.LoadScene("Lobby");
+                break;
+            case GameState.Gameplay:
+                SceneManager.LoadScene("Gameplay");
+                break;
+            case GameState.Lose:
+                SceneManager.LoadScene("Lobby");
+                break;
+        }
     }
 }
