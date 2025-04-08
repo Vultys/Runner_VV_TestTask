@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IFruitSpawner
 {
-    void TrySpawnFruits(Vector3 platformCenter);
+    void TrySpawnFruits(Transform spawnPoint);
 
     void Reset();
 }

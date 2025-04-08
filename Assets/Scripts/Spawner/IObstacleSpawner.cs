@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IObstacleSpawner
 {
-    void TrySpawnObstacle(Vector3 position);
+    void TrySpawnObstacle(Transform spawnPoint);
 
     void Reset();
 }
