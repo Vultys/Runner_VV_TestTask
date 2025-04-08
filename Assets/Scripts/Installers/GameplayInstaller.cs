@@ -3,13 +3,18 @@ using Zenject;
 
 public class GameplayInstaller : MonoInstaller
 {
+    [SerializeField] private PlatformSpawnerSettings _platformSpawnerSettings;
+
     [SerializeField] private Transform _player;
 
     public override void InstallBindings()
     {
         Container.BindInstance(_player);
-        Container.Bind<IPlayerInput>().To<PlayerInput>().AsSingle();
+        Container.BindInstance(_platformSpawnerSettings);
+        
+        Container.Bind<IPlayerInput>().To<KeyboardInput>().AsSingle();
         Container.Bind<IScoreSystem>().To<ScoreSystem>().AsSingle();
+        Container.Bind<IPlatformSpawner>().To<PlatformSpawner>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle();
     }
