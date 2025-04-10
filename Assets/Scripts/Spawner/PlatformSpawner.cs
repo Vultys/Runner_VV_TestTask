@@ -18,6 +18,10 @@ public class PlatformSpawner : IPlatformSpawner
 
     private readonly float _platformLength = 20f;
 
+    private readonly int _fruitsToSpawn = 3;
+
+    private readonly int _obstaclesToSpawn = 3;
+
     private Queue<GameObject> _activePlatforms = new();
 
     private float _spawnZ = 0f;
@@ -47,10 +51,14 @@ public class PlatformSpawner : IPlatformSpawner
 
         var platformSegment = platform.GetComponent<PlatformSegment>();
 
-        foreach(var spawnPoint in platformSegment.SpawnPoints)
+        for(int i = 0; i < _fruitsToSpawn; i++)
         {
-            _fruitSpawner.TrySpawnFruits(spawnPoint);
-            _obstacleSpawner.TrySpawnObstacle(spawnPoint);
+            _fruitSpawner.TrySpawnFruits(platformSegment.SpawnPoints[Random.Range(0, platformSegment.SpawnPoints.Count)]);
+        }
+        
+        for(int i = 0; i < _obstaclesToSpawn; i++)
+        {
+            _obstacleSpawner.TrySpawnObstacle(platformSegment.SpawnPoints[Random.Range(0, platformSegment.SpawnPoints.Count)]);
         }
 
         if(_activePlatforms.Count > 10)

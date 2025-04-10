@@ -5,7 +5,7 @@ using Zenject;
 public class SpawnerInstaller : MonoInstaller
 {
     [Header("Fruits")]
-    public List<SpawnableItemConfig> fruits;
+    public List<FruitsTypeConfig> fruits;
 
     [Header("Obstacles")]
     public List<SpawnableItemConfig> obstacles;

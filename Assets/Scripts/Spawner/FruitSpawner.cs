@@ -4,11 +4,11 @@ using Zenject;
 
 public class FruitSpawner : IFruitSpawner
 {
-    private readonly List<SpawnableItemConfig> _fruitConfigs;
+    private readonly List<FruitsTypeConfig> _fruitConfigs;
 
     private readonly DiContainer _container;
 
-    public FruitSpawner(List<SpawnableItemConfig> fruitConfigs, DiContainer container)
+    public FruitSpawner(List<FruitsTypeConfig> fruitConfigs, DiContainer container)
     {
         _fruitConfigs = fruitConfigs;
         _container = container;
@@ -16,7 +16,7 @@ public class FruitSpawner : IFruitSpawner
 
     public void Reset()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void TrySpawnFruits(Transform spawnPoint)

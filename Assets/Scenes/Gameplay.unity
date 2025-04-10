@@ -343,11 +343,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruits:
-  - prefab: {fileID: 100000, guid: ca03aa5ab3af9f147aa60e7b8d131fe3, type: 3}
-    spawnChance: 0.392
-  obstacles:
-  - prefab: {fileID: 100000, guid: b537d06bad4bd8648bd7dc62731aa892, type: 3}
-    spawnChance: 0.485
+  - {fileID: 11400000, guid: 14c7afb368ebc394c8465e2fc0df0514, type: 2}
+  - {fileID: 11400000, guid: d8b9a878834d39b4280d4bb2a253f8cb, type: 2}
+  - {fileID: 11400000, guid: a3377d717089c4348815810f5c3cca47, type: 2}
+  - {fileID: 11400000, guid: 0ac8a2e18e43c6840b2ab94eda8edcc5, type: 2}
+  obstacles: []
 --- !u!1 &779881812
 GameObject:
   m_ObjectHideFlags: 0

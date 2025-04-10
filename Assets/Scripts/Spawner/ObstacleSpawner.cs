@@ -16,11 +16,15 @@ public class ObstacleSpawner : IObstacleSpawner
 
     public void Reset()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void TrySpawnObstacle(Transform spawnPoint)
     {
+        if(_obstacleConfigs.Count == 0)
+        {
+            return;
+        }
         foreach (var obstacleConfig in _obstacleConfigs)
         {
             if(Random.value <= obstacleConfig.spawnChance)

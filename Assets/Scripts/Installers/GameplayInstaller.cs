@@ -15,6 +15,7 @@ public class GameplayInstaller : MonoInstaller
         Container.Bind<IPlayerInput>().To<KeyboardInput>().AsSingle();
         Container.Bind<IScoreSystem>().To<ScoreSystem>().AsSingle();
         Container.Bind<IPlatformSpawner>().To<PlatformSpawner>().AsSingle();
+        Container.Bind<IFruitScoreSystem>().To<FruitScoreSystem>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle();
     }
