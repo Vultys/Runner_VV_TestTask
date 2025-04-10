@@ -25,7 +25,8 @@ public class FruitSpawner : IFruitSpawner
         {
             if(Random.value <= fruitConfig.spawnChance)
             {
-                _container.InstantiatePrefab(fruitConfig.prefab, spawnPoint.position, Quaternion.identity, null);
+                Vector3 spawnPos = new Vector3(spawnPoint.position.x, fruitConfig.prefab.transform.position.y, spawnPoint.position.z);
+                _container.InstantiatePrefab(fruitConfig.prefab, spawnPos, fruitConfig.prefab.transform.rotation, null);
                 break;
             }
         }

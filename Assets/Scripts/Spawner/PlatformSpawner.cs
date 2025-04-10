@@ -20,7 +20,7 @@ public class PlatformSpawner : IPlatformSpawner
 
     private readonly int _fruitsToSpawn = 3;
 
-    private readonly int _obstaclesToSpawn = 3;
+    private readonly int _obstaclesToSpawn = 2;
 
     private Queue<GameObject> _activePlatforms = new();
 
@@ -50,15 +50,28 @@ public class PlatformSpawner : IPlatformSpawner
         _activePlatforms.Enqueue(platform);
 
         var platformSegment = platform.GetComponent<PlatformSegment>();
+        List<int> usedSpawnPoints = new();
 
         for(int i = 0; i < _fruitsToSpawn; i++)
         {
-            _fruitSpawner.TrySpawnFruits(platformSegment.SpawnPoints[Random.Range(0, platformSegment.SpawnPoints.Count)]);
+            int spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
+            while(usedSpawnPoints.Contains(spawnPointIndex))
+            {
+                spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
+            }
+            usedSpawnPoints.Add(spawnPointIndex);
+            _fruitSpawner.TrySpawnFruits(platformSegment.SpawnPoints[spawnPointIndex]);
         }
-        
+
         for(int i = 0; i < _obstaclesToSpawn; i++)
-        {
-            _obstacleSpawner.TrySpawnObstacle(platformSegment.SpawnPoints[Random.Range(0, platformSegment.SpawnPoints.Count)]);
+        {  
+            int spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
+            while(usedSpawnPoints.Contains(spawnPointIndex))
+            {
+                spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
+            }
+            usedSpawnPoints.Add(spawnPointIndex);
+            _obstacleSpawner.TrySpawnObstacle(platformSegment.SpawnPoints[spawnPointIndex]);
         }
 
         if(_activePlatforms.Count > 10)

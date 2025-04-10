@@ -5,10 +5,15 @@ public class FruitCollector : MonoBehaviour
 {
     private IFruitScoreSystem _scoreSystem;
 
+    private IGameState _gameState;
+
+    [SerializeField] private LoseScreen _loseScreen;
+
     [Inject]
-    public void Construct(IFruitScoreSystem scoreSystem)
+    public void Construct(IFruitScoreSystem scoreSystem, IGameState gameState)
     {
         _scoreSystem = scoreSystem;
+        _gameState = gameState;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,6 +23,12 @@ public class FruitCollector : MonoBehaviour
         {
             _scoreSystem.Collect(fruit.config);
             Destroy(fruit.gameObject);
+        }
+
+        if(other.gameObject.CompareTag("Obstacle"))
+        {
+            Time.timeScale = 0;
+            _loseScreen.Show(() => _gameState.ChangeState(GameState.Lose));
         }
     }
 }
