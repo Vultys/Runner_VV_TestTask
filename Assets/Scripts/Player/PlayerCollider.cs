@@ -7,13 +7,14 @@ public class FruitCollector : MonoBehaviour
 
     private IGameState _gameState;
 
-    [SerializeField] private LoseScreen _loseScreen;
+    private LoseScreen _loseScreen;
 
     [Inject]
-    public void Construct(IFruitScoreSystem scoreSystem, IGameState gameState)
+    public void Construct(IFruitScoreSystem scoreSystem, IGameState gameState, LoseScreen loseScreen)
     {
         _scoreSystem = scoreSystem;
         _gameState = gameState;
+        _loseScreen = loseScreen;
     }
 
     private void OnTriggerEnter(Collider other)
