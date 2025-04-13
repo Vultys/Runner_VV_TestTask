@@ -26,7 +26,6 @@ public class GameStateMachine : IGameState
                 SceneManager.LoadScene("Lobby");
                 break;
             case GameState.Gameplay:
-                Time.timeScale = 1f;
                 SceneManager.LoadScene("Gameplay");
                 break;
             case GameState.Lose:

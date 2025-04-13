@@ -2,19 +2,13 @@ using UnityEngine;
 using Zenject;
 
 public class FruitCollector : MonoBehaviour
-{
-    private IFruitScoreSystem _scoreSystem;
-
-    private IGameState _gameState;
-
-    private LoseScreen _loseScreen;
+{   
+    private GameplayController _gameplayController;
 
     [Inject]
-    public void Construct(IFruitScoreSystem scoreSystem, IGameState gameState, LoseScreen loseScreen)
+    public void Construct(GameplayController gameplayController)
     {
-        _scoreSystem = scoreSystem;
-        _gameState = gameState;
-        _loseScreen = loseScreen;
+        _gameplayController = gameplayController;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,14 +16,12 @@ public class FruitCollector : MonoBehaviour
         var fruit = other.GetComponent<Fruit>();
         if (fruit != null)
         {
-            _scoreSystem.Collect(fruit.config);
-            Destroy(fruit.gameObject);
+            _gameplayController.CollectAndDestroy(fruit);
         }
 
         if(other.gameObject.CompareTag("Obstacle"))
         {
-            Time.timeScale = 0;
-            _loseScreen.Show(() => _gameState.ChangeState(GameState.Lose));
+            _gameplayController.Lose();
         }
     }
 }

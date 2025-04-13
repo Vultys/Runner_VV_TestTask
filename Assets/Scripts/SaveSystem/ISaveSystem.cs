@@ -2,6 +2,6 @@ using System.Collections.Generic;
 
 public interface ISaveSystem
 {
-    void SaveResult(List<GameResult> results);
-    List<GameResult> LoadResult();
+    void SaveResult(GameResult results);
+    List<GameResult> LoadResults();
 }

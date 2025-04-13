@@ -5,6 +5,7 @@ public class ProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {        
+        Container.Bind<ISaveSystem>().To<PlayerPrefsSaveSystem>().AsSingle();
         Container.Bind<IGameState>().To<GameStateMachine>().AsSingle();
     }
 }

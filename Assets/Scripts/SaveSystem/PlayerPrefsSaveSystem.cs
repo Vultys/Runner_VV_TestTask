@@ -6,24 +6,32 @@ public class PlayerPrefsSaveSystem : ISaveSystem
 {
     private const string SaveKey = "GameResults";
 
-    public void SaveResult(List<GameResult> results)
+    public void SaveResult(GameResult result)
     {
-        string json = JsonUtility.ToJson(new GameResultsWrapper { Results = results });
+        var list = LoadResults();
+        list.Add(result);
+        string json = JsonUtility.ToJson(new GameResultsWrapper(list));
         PlayerPrefs.SetString(SaveKey, json);
+        PlayerPrefs.Save();
     }
 
-    public List<GameResult> LoadResult()
+    public List<GameResult> LoadResults()
     {
         if(!PlayerPrefs.HasKey(SaveKey)) return new();
 
         string json = PlayerPrefs.GetString(SaveKey);
 
-        return JsonUtility.FromJson<GameResultsWrapper>(json).Results;
+        return JsonUtility.FromJson<GameResultsWrapper>(json)?.results ?? new();
     }
 
     [Serializable]
     private class GameResultsWrapper
     {
-        public List<GameResult> Results;
+        public List<GameResult> results;
+
+        public GameResultsWrapper(List<GameResult> list)
+        {
+            results = list;
+        }
     }
 }

@@ -13,6 +13,7 @@ public class GameplayInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container.Bind<GameplayController>().FromComponentInHierarchy().AsSingle();
         Container.BindInstance(_player);
         Container.BindInstance(_platformSpawnerSettings);
         Container.BindInstance(_loseScreen).AsSingle();
