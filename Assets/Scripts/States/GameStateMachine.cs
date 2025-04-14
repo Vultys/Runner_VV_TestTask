@@ -1,13 +1,16 @@
 using System;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameStateMachine : IGameState
+public class GameStateMachine : IGameStateMachine
 {
     public GameState CurrentState { get; private set; }
 
     public event Action<GameState> OnStateChanged;
 
+    /// <summary>
+    /// Changes the state
+    /// </summary>
+    /// <param name="newState"> The new state </param>
     public void ChangeState(GameState newState)
     {
         if(CurrentState == newState) return;
@@ -18,6 +21,10 @@ public class GameStateMachine : IGameState
         HandleStateTransition(newState);
     }
 
+    /// <summary>
+    /// Handles the state transition
+    /// </summary>
+    /// <param name="newState"> The new state </param>
     private void HandleStateTransition(GameState newState)
     {
         switch(newState)

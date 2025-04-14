@@ -16,7 +16,7 @@ public class LobbyRankUI : MonoBehaviour
         _saveSystem = saveSystem;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         var results = _saveSystem.LoadResults()
             .OrderByDescending(r => r.TotalScore)
@@ -34,7 +34,13 @@ public class LobbyRankUI : MonoBehaviour
         _rankText.text = stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Shows the rank UI
+    /// </summary>
     public void Show() => gameObject.SetActive(true);
 
+    /// <summary>
+    /// Invokes by the UI button to hide the rank UI
+    /// </summary>
     public void Hide() => gameObject.SetActive(false);
 }

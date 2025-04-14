@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
 
 public interface IFruitScoreSystem
 {
+    event Action OnScoreChanged;
+    
     int TotalScore { get; }
 
     void Collect(FruitsTypeConfig fruitType);
 
-    int GetCollectedCount(string fruitTypeId);
+    int GetCollectedCount(FruitsType fruitTypeId);
 
-    IReadOnlyDictionary<string, int> GetCollectedCounts();
+    IReadOnlyDictionary<FruitsType, int> GetCollectedCounts();
 }

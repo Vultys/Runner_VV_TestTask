@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ad34ca0c6621441a68a9369f23dab1, type: 3}
   m_Name: Kiwi
   m_EditorClassIdentifier: 
-  id: kiwi
+  type: 2
   prefab: {fileID: 4854797012712855985, guid: e321fd14ef4438f4f8647b172688d301, type: 3}
   points: 3
   spawnChance: 0.3

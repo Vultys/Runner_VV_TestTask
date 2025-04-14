@@ -4,16 +4,21 @@ using Zenject;
 
 public class LoadingController : MonoBehaviour
 {
-    [Inject] private IGameState _gameState;
+    [Inject] private IGameStateMachine _gameState;
+
+    [SerializeField] private float _delay = 2f;
 
     private void Start()
     {
-        StartCoroutine(LoadGame());
+        StartCoroutine(LoadGame(_delay));
     }
 
-    private IEnumerator LoadGame()
+    /// <summary>
+    /// Changes the GameStateMachine to the Lobby state after delay
+    /// </summary>
+    private IEnumerator LoadGame(float delay)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(delay);
 
         _gameState.ChangeState(GameState.Lobby);
     }

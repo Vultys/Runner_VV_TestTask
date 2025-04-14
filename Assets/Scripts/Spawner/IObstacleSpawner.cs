@@ -1,8 +1,4 @@
-using UnityEngine;
-
-public interface IObstacleSpawner
+public interface IObstacleSpawner : ISpawner
 {
-    void TrySpawnObstacle(Transform spawnPoint);
 
-    void Reset();
 }

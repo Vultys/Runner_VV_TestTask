@@ -12,7 +12,7 @@ public class SpawnerInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Container.Bind<IFruitSpawner>().To<FruitSpawner>().AsSingle().WithArguments(fruits, Container);
+        Container.Bind<ISpawner>().To<FruitSpawner>().AsSingle().WithArguments(fruits, Container);
         Container.Bind<IObstacleSpawner>().To<ObstacleSpawner>().AsSingle().WithArguments(obstacles, Container);
     }
 }

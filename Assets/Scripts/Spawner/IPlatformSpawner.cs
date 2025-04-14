@@ -1,6 +1,5 @@
 public interface IPlatformSpawner
 {
-    void SpawnInitial();
+    float PlatformLength { get; }
     void SpawnNext();
-    void Reset();
 }

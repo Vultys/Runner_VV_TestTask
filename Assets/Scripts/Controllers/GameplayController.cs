@@ -3,38 +3,44 @@ using Zenject;
 
 public class GameplayController : MonoBehaviour
 {
-    private IGameState _gameState;
-
+    private IGameStateMachine _gameStateMachine;
     private LoseScreen _loseScreen;
-
     private IFruitScoreSystem _scoreSystem;
-
     private ISaveSystem _saveSystem;
 
     [Inject]
-    public void Construct(IGameState gameState, LoseScreen loseScreen, IFruitScoreSystem scoreSystem, ISaveSystem saveSystem)
+    public void Construct(IGameStateMachine gameStateMachine, LoseScreen loseScreen, IFruitScoreSystem scoreSystem, ISaveSystem saveSystem)
     {
-        _gameState = gameState;
+        _gameStateMachine = gameStateMachine;
         _loseScreen = loseScreen;
         _scoreSystem = scoreSystem;
         _saveSystem = saveSystem;
     }
 
+    /// <summary>
+    /// Changes the GameStateMachine to the Loading state
+    /// </summary>
     public void Lose()
     {
         Time.timeScale = 0f;
-        _loseScreen.Show(OnLoseScreenClose);
+        _loseScreen.Show(OnLoseScreenClosed);
     }
 
-    public void CollectAndDestroy(Fruit fruit)
+    /// <summary>
+    /// Collects the fruit
+    /// </summary>
+    /// <param name="fruit"> The fruit to collect </param>
+    public void CollectFruit(Fruit fruit)
     {
         _scoreSystem.Collect(fruit.config);
-        Destroy(fruit.gameObject);
     }
 
-    private void OnLoseScreenClose()
+    /// <summary>
+    /// Changes the GameStateMachine to the Lobby state
+    /// </summary>
+    private void OnLoseScreenClosed()
     {
-        _saveSystem.SaveResult(new GameResult(_scoreSystem.TotalScore, new(_scoreSystem.GetCollectedCounts())));
-        _gameState.ChangeState(GameState.Lobby);
+        _saveSystem.SaveResult(new GameResult(_scoreSystem.TotalScore));
+        _gameStateMachine.ChangeState(GameState.Lobby);
     }
 }

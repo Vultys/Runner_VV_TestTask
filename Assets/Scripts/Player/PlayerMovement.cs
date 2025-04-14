@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 public class PlayerMovement
 {
@@ -7,7 +6,6 @@ public class PlayerMovement
     private readonly float _moveSpeed;
     private readonly float _laneDistance;
     private readonly float _smoothness;
-
     private int _currentLane = 1;
 
     public PlayerMovement(Transform player, float laneDistance, float moveSpeed, float smoothness)
@@ -18,22 +16,26 @@ public class PlayerMovement
         _smoothness = smoothness;
     }
     
+    /// <summary>
+    /// Updates the player position based on the input
+    /// </summary>
+    /// <param name="deltaTime"> The time since the last update </param>
+    /// <param name="input"> The input to use </param>
     public void Tick(float deltaTime, int input)
     {
-        if(input != 0)
-        {
-            _currentLane = Mathf.Clamp(_currentLane + input, 0, 2);
-        }
+        _currentLane = CalculateCurrentLane(input);
 
         float targetX = (_currentLane - 1) * _laneDistance;
         Vector3 targetPos = new Vector3(targetX, _player.position.y, _player.position.z + _moveSpeed * deltaTime);
 
+
         _player.position = Vector3.Lerp(_player.position, targetPos, deltaTime * _smoothness);
     }
 
-    public void ResetPosition()
-    {
-        _currentLane = 1;
-        _player.position = new Vector3(0, _player.position.y, 0);
-    }
+    /// <summary>
+    /// Calculates the current lane based on the input
+    /// </summary>
+    /// <param name="input"> The input to use </param>
+    /// <returns> The current lane </returns>
+    private int CalculateCurrentLane(int input) => input == 0 ? _currentLane : Mathf.Clamp(_currentLane + input, 0, 2);
 }

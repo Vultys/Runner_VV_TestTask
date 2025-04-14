@@ -9,7 +9,7 @@ public enum GameState
 }
 
 
-public interface IGameState
+public interface IGameStateMachine
 {
     GameState CurrentState { get; }
 

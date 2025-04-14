@@ -6,6 +6,10 @@ public class PlayerPrefsSaveSystem : ISaveSystem
 {
     private const string SaveKey = "GameResults";
 
+    /// <summary>
+    /// Saves the result to the player prefs
+    /// </summary>
+    /// <param name="result"> The result to save </param>
     public void SaveResult(GameResult result)
     {
         var list = LoadResults();
@@ -15,6 +19,10 @@ public class PlayerPrefsSaveSystem : ISaveSystem
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Loads the results from the player prefs
+    /// </summary>
+    /// <returns> The results </returns>
     public List<GameResult> LoadResults()
     {
         if(!PlayerPrefs.HasKey(SaveKey)) return new();

@@ -19,6 +19,10 @@ public class LoseScreen : MonoBehaviour
 
     private Action _onClose;
 
+    /// <summary>
+    /// Shows the lose screen
+    /// </summary>
+    /// <param name="onClose"> The action to invoke when the close button is clicked </param>
     public void Show(Action onClose)
     {
         _panel.SetActive(true);
@@ -26,6 +30,9 @@ public class LoseScreen : MonoBehaviour
         _onClose = onClose;
     }
 
+    /// <summary>
+    /// Invokes by the UI button to close the lose screen
+    /// </summary>
     public void Close()
     {
         _onClose?.Invoke();

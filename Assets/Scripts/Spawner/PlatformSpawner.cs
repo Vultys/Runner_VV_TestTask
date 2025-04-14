@@ -4,91 +4,82 @@ using Zenject;
 
 public class PlatformSpawner : IPlatformSpawner
 {
-    [Inject] private IFruitSpawner _fruitSpawner;
-
-    [Inject] private IObstacleSpawner _obstacleSpawner;
-
     private readonly DiContainer _container;
-
     private readonly Transform _parent;
-    
     private readonly GameObject _platformPrefab;
-
-    private readonly int _initialCount = 5;
-
-    private readonly float _platformLength = 20f;
-
-    private readonly int _fruitsToSpawn = 3;
-
-    private readonly int _obstaclesToSpawn = 2;
 
     private Queue<GameObject> _activePlatforms = new();
 
     private float _spawnZ = 0f;
 
-    public PlatformSpawner(DiContainer container, PlatformSpawnerSettings settings)
+    
+    private readonly float _platformLength = 20f;
+    private readonly int _maxPlatforms = 6;
+
+    private readonly int _fruitsToSpawn = 3;
+    private readonly int _obstaclesToSpawn = 1;
+
+    private ISpawner _fruitSpawner;
+
+    private IObstacleSpawner _obstacleSpawner;
+
+    public float PlatformLength => _platformLength;
+
+    [Inject]
+    public PlatformSpawner(DiContainer container, PlatformSpawnerSettings settings, ISpawner fruitSpawner, IObstacleSpawner obstacleSpawner)
     {
         _container = container;
         _parent = settings.PlatformParent;
         _platformPrefab = settings.PlatformPrefab;
+
+        _fruitSpawner = fruitSpawner;
+        _obstacleSpawner = obstacleSpawner;
     }
 
-    public void SpawnInitial()
-    {
-        _spawnZ = 0f;
-        for(int i = 0; i < _initialCount; i++)
-        {
-            SpawnNext();
-        }
-    }
-
+    /// <summary>
+    /// Spawns the next platform
+    /// </summary>
     public void SpawnNext()
     {
         var platform = _container.InstantiatePrefab(_platformPrefab, _parent);
         platform.transform.position = new Vector3(0, 0, _spawnZ);
         _spawnZ += _platformLength;
+
         _activePlatforms.Enqueue(platform);
 
         var platformSegment = platform.GetComponent<PlatformSegment>();
-        List<int> usedSpawnPoints = new();
+        var usedSpawnPoints = new HashSet<int>();
 
-        for(int i = 0; i < _fruitsToSpawn; i++)
-        {
-            int spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
-            while(usedSpawnPoints.Contains(spawnPointIndex))
-            {
-                spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
-            }
-            usedSpawnPoints.Add(spawnPointIndex);
-            _fruitSpawner.TrySpawnFruits(platformSegment.SpawnPoints[spawnPointIndex]);
-        }
+        SpawnEntities(_fruitSpawner, platformSegment, _fruitsToSpawn, usedSpawnPoints);
+        SpawnEntities(_obstacleSpawner, platformSegment, _obstaclesToSpawn, usedSpawnPoints);
 
-        for(int i = 0; i < _obstaclesToSpawn; i++)
-        {  
-            int spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
-            while(usedSpawnPoints.Contains(spawnPointIndex))
-            {
-                spawnPointIndex = Random.Range(0, platformSegment.SpawnPoints.Count);
-            }
-            usedSpawnPoints.Add(spawnPointIndex);
-            _obstacleSpawner.TrySpawnObstacle(platformSegment.SpawnPoints[spawnPointIndex]);
-        }
-
-        if(_activePlatforms.Count > 10)
+        if(_activePlatforms.Count > _maxPlatforms)
         {
             var old = _activePlatforms.Dequeue();
             GameObject.Destroy(old);
         }
     }
 
-    public void Reset()
+    /// <summary>
+    /// Spawns the given number of entities on the given platform
+    /// </summary>
+    /// <param name="spawner"> The spawner to use </param>
+    /// <param name="platformSegment"> The platform segment to spawn on </param>
+    /// <param name="count"> The number of entities to spawn </param>
+    /// <param name="usedSpawnPoints"> The spawn points that have already been used </param>
+    private void SpawnEntities(ISpawner spawner, PlatformSegment platformSegment, int count, HashSet<int> usedSpawnPoints)
     {
-        foreach(var platform in _activePlatforms)
-        {
-            GameObject.Destroy(platform);
+        int pointCount = platformSegment.SpawnPoints.Count;
+        for(int i = 0; i <= count; i++)
+        {  
+            int index;
+            do
+            {
+                index = Random.Range(0, pointCount);
+            }
+            while(!usedSpawnPoints.Add(index));
+            
+            spawner.TrySpawn(platformSegment.SpawnPoints[index]);
         }
-
-        _activePlatforms.Clear();
-        _spawnZ = 0f;
     }
 }

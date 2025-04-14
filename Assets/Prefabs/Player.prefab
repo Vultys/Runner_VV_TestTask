@@ -831,7 +831,6 @@ GameObject:
   - component: {fileID: 7401796462738186842}
   - component: {fileID: 3870103689791588992}
   - component: {fileID: 1946644009989532363}
-  - component: {fileID: 9159316499569690739}
   - component: {fileID: 237756520841825243}
   - component: {fileID: 8636476640063127689}
   m_Layer: 0
@@ -908,19 +907,6 @@ CapsuleCollider:
   m_Height: 3.189167
   m_Direction: 1
   m_Center: {x: 0.006716728, y: 0.47910738, z: 0}
---- !u!114 &9159316499569690739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4869180047523177776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1419128340413b64bbe406b804846393, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerDistance: 20
 --- !u!114 &237756520841825243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,9 +919,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a21c78a60ce60846a8e32488f742b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 50
+  _moveSpeed: 80
   _laneDistance: 3
   _moveSmoothness: 10
+  _platformSpawnTriggerDistance: 40
 --- !u!114 &8636476640063127689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,8 +978,8 @@ Camera:
   m_GameObject: {fileID: 6566789472306056572}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.65882355, g: 0.3254902, b: 0.63529414, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

@@ -14,17 +14,17 @@ public class ObstacleSpawner : IObstacleSpawner
         _container = container;
     }
 
-    public void Reset()
-    {
-        
-    }
-
-    public void TrySpawnObstacle(Transform spawnPoint)
+    /// <summary>
+    /// Spawns an obstacle at the given spawn point
+    /// </summary>
+    /// <param name="spawnPoint"> The spawn point to spawn at </param>
+    public void TrySpawn(Transform spawnPoint)
     {
         if(_obstacleConfigs.Count == 0)
         {
             return;
         }
+
         foreach (var obstacleConfig in _obstacleConfigs)
         {
             if(Random.value <= obstacleConfig.spawnChance)

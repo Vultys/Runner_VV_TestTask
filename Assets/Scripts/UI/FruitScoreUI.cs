@@ -16,14 +16,19 @@ public class FruitScoreUI : MonoBehaviour
     public void Construct(IFruitScoreSystem scoreSystem)
     {
         _scoreSystem = scoreSystem;
+        UpdateUIText();
     }
 
-    private void Update()
+    private void OnEnable() => _scoreSystem.OnScoreChanged += UpdateUIText;
+
+    private void OnDisable() => _scoreSystem.OnScoreChanged -= UpdateUIText;
+
+    private void UpdateUIText()
     {
-        _redFruitScoreText.text = "Carrots: " + _scoreSystem.GetCollectedCount("carrot").ToString();
-        _greenFruitScoreText.text = "Kiwi: " + _scoreSystem.GetCollectedCount("kiwi").ToString();
-        _blueFruitScoreText.text = "Blue Pie: " + _scoreSystem.GetCollectedCount("bluePie").ToString();
-        _yellowFruitScoreText.text = "Banana: " + _scoreSystem.GetCollectedCount("banana").ToString();
+        _redFruitScoreText.text = "Carrots: " + _scoreSystem.GetCollectedCount(FruitsType.Carrot).ToString();
+        _greenFruitScoreText.text = "Kiwi: " + _scoreSystem.GetCollectedCount(FruitsType.Kiwi).ToString();
+        _blueFruitScoreText.text = "Blue Pie: " + _scoreSystem.GetCollectedCount(FruitsType.BluePie).ToString();
+        _yellowFruitScoreText.text = "Banana: " + _scoreSystem.GetCollectedCount(FruitsType.Banana).ToString();
         _totalScoreText.text = "Total: " + _scoreSystem.TotalScore.ToString();
     }
 }

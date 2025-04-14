@@ -3,12 +3,12 @@ using Zenject;
 
 public class LobbyController : MonoBehaviour
 {
-    [Inject] private IGameState _gameState;
+    [Inject] private IGameStateMachine _gameState;
 
     [Inject] private LobbyRankUI _rankUI;
 
     /// <summary>
-    /// Invokes by the UI button
+    /// Invokes by the UI button to start the game
     /// </summary>
     public void StartGame()
     {
@@ -16,6 +16,9 @@ public class LobbyController : MonoBehaviour
         _gameState.ChangeState(GameState.Gameplay);
     }
 
+    /// <summary>
+    /// Invokes by the UI button to show the rank UI
+    /// </summary>
     public void ShowRankUI()
     {
         _rankUI.Show();

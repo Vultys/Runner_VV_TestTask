@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class FruitSpawner : IFruitSpawner
+public class FruitSpawner : ISpawner
 {
     private readonly List<FruitsTypeConfig> _fruitConfigs;
 
@@ -14,13 +14,17 @@ public class FruitSpawner : IFruitSpawner
         _container = container;
     }
 
-    public void Reset()
+    /// <summary>
+    /// Spawns a fruit at the given spawn point
+    /// </summary>
+    /// <param name="spawnPoint"> The spawn point to spawn at </param>
+    public void TrySpawn(Transform spawnPoint)
     {
-        
-    }
+        if(_fruitConfigs.Count == 0)
+        {
+            return;
+        }
 
-    public void TrySpawnFruits(Transform spawnPoint)
-    {
         foreach (var fruitConfig in _fruitConfigs)
         {
             if(Random.value <= fruitConfig.spawnChance)
